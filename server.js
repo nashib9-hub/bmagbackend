@@ -1,26 +1,3 @@
-{
-  "name": "bmagbackend",
-  "version": "1.0.0",
-  "description": "Backend server for Bhimbadh Agro CMS",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "mongoose": "^8.3.1"
-  }
-}
-```[cite: 10, 11]
-
----
-
-### 2. `server.js`
-Create a file named `server.js` and paste this content:
-
-```javascript
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
