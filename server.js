@@ -11,10 +11,7 @@ app.use(express.json({ limit: '15mb' }));
 // Connect to MongoDB Atlas using Render Environment Variables
 const MONGODB_URI = process.env.MONGODB_URI;
 
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(MONGODB_URI)
     .then(() => console.log('MongoDB Connected Successfully'))
     .catch(err => console.error('MongoDB Connection Error:', err));
 
@@ -25,6 +22,11 @@ const SiteSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const SiteModel = mongoose.model('SiteData', SiteSchema);
+
+// Root / Health Check Endpoint for Render
+app.get('/', (req, res) => {
+    res.send('BMAG Backend is running live!');
+});
 
 // API Endpoint to Load Site Data
 app.get('/api/data', async (req, res) => {
@@ -53,4 +55,3 @@ app.post('/api/data', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-```[cite: 10, 11]
