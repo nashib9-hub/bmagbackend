@@ -1,58 +1,13 @@
-// MongoDB Atlas Data API Configuration
-const ATLAS_API_URL = "https://<YOUR_REGION_ENDPOINT>/endpoint/data/v1/action";
-const ATLAS_API_KEY = "YOUR_ATLAS_API_KEY";
-const DATASOURCE_NAME = "Cluster9";
-const DATABASE_NAME = "bhimbadh_agro";
-const COLLECTION_NAME = "sitedata";
-
-async function loadSiteData() {
-  try {
-    const response = await fetch(`${ATLAS_API_URL}/findOne`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Request-Headers": "*",
-        "api-key": ATLAS_API_KEY,
-      },
-      body: JSON.stringify({
-        dataSource: DATASOURCE_NAME,
-        database: DATABASE_NAME,
-        collection: COLLECTION_NAME,
-        filter: { version: "v1" }
-      })
-    });
-
-    const result = await response.json();
-    if (result && result.document && result.document.data) {
-      return result.document.data;
-    }
-  } catch (e) {
-    console.warn("Could not fetch from MongoDB Data API, using default data.");
+{
+  "name": "bmagbackend",
+  "version": "1.0.0",
+  "description": "Backend for Bhimbadh Agro",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
   }
-  return JSON.parse(JSON.stringify(DEFAULT_SITE_DATA));
-}
-
-async function saveSiteData() {
-  try {
-    // First, check if the document exists or upsert it using update
-    await fetch(`${ATLAS_API_URL}/updateOne`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Request-Headers": "*",
-        "api-key": ATLAS_API_KEY,
-      },
-      body: JSON.stringify({
-        dataSource: DATASOURCE_NAME,
-        database: DATABASE_NAME,
-        collection: COLLECTION_NAME,
-        filter: { version: "v1" },
-        update: { $set: { data: siteData } },
-        upsert: true
-      })
-    });
-  } catch (e) {
-    alert("Failed to save changes to MongoDB Atlas.");
-  }
-  renderAllSections();
 }
